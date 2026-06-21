@@ -1,32 +1,46 @@
-class S {
-    public static int[] twoSum(int[] nums, int target) {
+import java.util.*;
 
-        int n = nums.length;
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
 
-        for(int i = 0; i < n - 1; i++) {
-            for(int j = i + 1; j < n; j++) {
+        Arrays.sort(nums);
 
-                if(target == nums[i] + nums[j]) {
-                    System.out.println("[" + i + "," + j + "]");
-                    return new int[]{i, j};
+        for (int i = 0; i < nums.length - 2; i++) {
+
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    ans.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+
+                    left++;
+                    right--;
+                }
+                else if (sum < 0) {
+                    left++;
                 }
                 else {
-                    System.out.println("[" + i + "," + j + "]" + " not equal to target");
+                    right--;
                 }
             }
         }
 
-        return new int[]{};
+        return ans;
     }
 }
-
-public class Solution {
-    public static void main(String args[]) {
-
-        S solS = new S();
-
-        solS.twoSum(new int[]{3,2,1,4}, 9);
-    }
-}
-    
-
